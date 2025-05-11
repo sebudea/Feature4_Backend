@@ -1,0 +1,18 @@
+type Query {
+    findAllUsers: [User]
+    findUserById(id: ID!): User
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    created_at: String!
+    role: Role!
+}
+
+type Role {
+    id: ID!
+    name: String!
+    description: String
+}
