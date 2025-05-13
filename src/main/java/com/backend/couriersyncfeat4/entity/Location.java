@@ -24,10 +24,13 @@ public class Location {
 
     @ManyToOne
     @JoinColumn(name="package_id", nullable = false)
-    private Packag packag;
+    private PackageEntity packag;
 
     private Float latitude;
     private Float longitude;
-    private LocalDateTime updated_at;
+
+    @Column(nullable = false, insertable = false, updatable = false)
+    private LocalDateTime updatedAt;
+
     private String address;
 }

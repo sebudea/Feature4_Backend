@@ -19,7 +19,7 @@ public class SystemUser {
 
     private String name;
     private String email;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)

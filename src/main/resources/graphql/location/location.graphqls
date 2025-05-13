@@ -1,0 +1,25 @@
+type Location {
+    id: ID!
+    user: User!
+    packag: Package!
+    latitude: Float
+    longitude: Float
+    updatedAt: String
+    address: String
+}
+
+input InputLocationAdd {
+    user: UserInput!
+    packag: PackageInput!
+    latitude: Float
+    longitude: Float
+    address: String
+}
+
+input InputLocationUpdate {
+    id: ID!
+    user: UserInput
+    latitude: Float
+    longitude: Float
+    address: String
+}

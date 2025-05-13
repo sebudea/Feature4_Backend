@@ -12,10 +12,4 @@ public class Couriersyncfeat4Application {
 
 	}
 
-	@PostConstruct
-	public void init() {
-		System.out.println("DB_URL: " + System.getenv("DB_URL"));
-	}
-
-
 }

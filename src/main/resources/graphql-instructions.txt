@@ -1,0 +1,212 @@
+# Examples of GraphQL instructions
+# Refer to the schema.graphqls file to check
+# the variables and types available for each function.
+# Note: the exclamation mark (!) indicates that the variable cannot be null.
+# Some variables are still pending this adjustment.
+
+query {
+  findAllUsers {
+    id
+    name
+    email 
+    createdAt
+    role {
+      id
+      name
+      description
+    }
+  }
+
+  findUserById(id: 1) {
+    name
+  }
+
+  findAllPackages {
+    id
+    user {
+      name
+    }
+    status {
+      name
+    }
+    trackingCode
+    description
+    registeredAt
+    destination
+  }
+
+  findPackageById(id: 6) {
+    trackingCode
+  }
+
+  findPackageByTrackingCode(code: "60bd0ee5-ad46-4855-9e9f-0653eeb99fce") {
+    id
+    user {
+      id
+      name
+      email
+      createdAt
+      role {
+        id
+        name
+        description
+      }
+    }
+    status {
+      id
+      name
+      description
+    }
+    trackingCode
+    registeredAt
+    description
+    destination
+  }
+
+  findPackagesByDateRange(startDate: "2025-05-12T23:14:54.731002", endDate: "2025-05-12T23:14:54.731002") {
+    id
+    user {
+      id
+      name
+      email
+      createdAt
+      role {
+        id
+        name
+        description
+      }
+    }
+    status {
+      id
+      name
+      description
+    }
+    trackingCode
+    registeredAt
+    description
+    destination
+  }
+
+  findPackageCountByUserId(id: 2) {
+    userId
+    packageCount
+  }
+    
+  findPackagesByStatusIn(packageStatuses: [1,2]) {
+    id
+    user {
+      id
+      name
+      email
+      createdAt
+      role {
+        id
+        name
+        description
+      }
+    }
+    status {
+      id
+      name
+      description
+    }
+    trackingCode
+    registeredAt
+    description
+    destination
+  }
+
+  findAllLocations {
+    id
+    user {
+      name
+    }
+    packag {
+      trackingCode
+    }
+    latitude
+    longitude
+    updatedAt
+    address
+  }
+
+  findLocationById(id: 1) {
+    packag {
+      trackingCode
+    }
+    address
+  }
+}
+
+# mutation {
+#   addPackage(
+#     packag: {
+#       user: {
+#         id: 1
+#       }
+#       status: {
+#         id: 2
+#       }
+#     }
+#   ) {
+#     success
+#     message
+#   }
+# }
+
+# mutation {
+#   updatePackage(
+#     packag: {
+#       id: 6
+#       user: {id: 2}
+#       status: {id: 2}
+#       description: "test"
+#       destination: "Medellín"
+#     }
+#   ) {
+#     success
+#     message
+#   }
+# }
+
+# mutation {
+#   deletePackageById(id: 7) {
+#     success
+#     message
+#   }
+# }
+
+# mutation {
+#   addLocation(
+#     location: {
+#       user: {
+#         id: 1
+#       }
+#       packag: {
+#         id: 6
+#       }
+#     }
+#   ) {
+#     success
+#     message
+#   }
+# }
+
+# mutation {
+#   updateLocation(
+#     location: {
+#       id: 1
+#       address: "Bogotá"
+#     }
+#   ) {
+#     success
+#     message
+#   }
+# }
+
+# mutation {
+#   deleteLocationById(id: 3) {
+#     success
+#     message
+#   }
+# }

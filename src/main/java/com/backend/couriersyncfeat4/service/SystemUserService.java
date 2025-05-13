@@ -1,6 +1,7 @@
 package com.backend.couriersyncfeat4.service;
 
 import com.backend.couriersyncfeat4.entity.SystemUser;
+import com.backend.couriersyncfeat4.interfaces.ISystemUserService;
 import com.backend.couriersyncfeat4.repository.SystemUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,12 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class SystemUserService {
+public class SystemUserService implements ISystemUserService {
 
     @Autowired
     SystemUserRepository systemUserRepository;
 
+    // TODO: make validations in each function
     public List<SystemUser> findAllUsers() {
         return systemUserRepository.findAll();
     }

@@ -1,18 +1,27 @@
+#TODO: Definir si devolver el Package, Location y User completo, o optar por DTOS
+#TODO: Validar si es necesario el [!]
 type Query {
-    findAllUsers: [User]
-    findUserById(id: ID!): User
+    findAllUsers: [User]!
+    findUserById(id: ID!): User!
+    findAllPackages: [Package]!
+    findPackageById(id: ID!): Package!
+    findPackageByTrackingCode(code: String!): Package!
+    findAllLocations: [Location]!
+    findLocationById(id: ID!): Location!
+    findPackagesByDateRange(startDate: String!, endDate: String): [Package]!
+    findPackageCountByUserId(id: ID!): PackageCount!
+    findPackagesByStatusIn(packageStatuses: [Int]!): [Package]!
 }
 
-type User {
-    id: ID!
-    name: String!
-    email: String!
-    created_at: String!
-    role: Role!
+type Mutation{
+    addPackage(packag: InputPackageAdd!): CustomResponse!
+    updatePackage(packag: InputPackageUpdate!): CustomResponse!
+    deletePackageById(id: ID!): CustomResponse!
+
+    addLocation(location: InputLocationAdd!): CustomResponse!
+    updateLocation(location: InputLocationUpdate!): CustomResponse!
+    deleteLocationById(id: ID!): CustomResponse!
 }
 
-type Role {
-    id: ID!
-    name: String!
-    description: String
-}
+
+

@@ -1,0 +1,43 @@
+type Package {
+    id: ID!
+    user: User!
+    status: PackageStatus!
+    trackingCode: String!
+    description: String
+    registeredAt: String
+    destination: String
+}
+
+input InputPackageAdd {
+    user: UserInput!
+    status: PackageStatusInput!
+    description: String
+    destination: String
+}
+
+input InputPackageUpdate {
+    id: ID!
+    user: UserInput
+    status: PackageStatusInput
+    description: String
+    destination: String
+}
+
+type PackageStatus {
+    id: ID!
+    name: String!
+    description: String
+}
+
+input PackageStatusInput {
+    id: ID!
+}
+
+input PackageInput {
+    id: ID!
+}
+
+type PackageCount {
+    userId: Int!
+    packageCount: Int!
+}
