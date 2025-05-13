@@ -1,7 +1,7 @@
 package com.backend.couriersyncfeat4.controller;
 
 import com.backend.couriersyncfeat4.entity.SystemUser;
-import com.backend.couriersyncfeat4.service.SystemUserService;
+import com.backend.couriersyncfeat4.interfaces.ISystemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -14,7 +14,7 @@ import java.util.List;
 public class SystemUserController {
 
     @Autowired
-    SystemUserService systemUserService;
+    ISystemUserService systemUserService;
 
     @QueryMapping
     public List<SystemUser> findAllUsers() {

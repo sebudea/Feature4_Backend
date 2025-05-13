@@ -24,12 +24,12 @@ public class Alert {
 
     @ManyToOne
     @JoinColumn(name="package_id", nullable = false)
-    private Packag packag;
+    private PackageEntity packag;
 
     @ManyToOne
     @JoinColumn(name="alert_type_id", nullable = false)
     private AlertType alertType;
 
     private String description;
-    private LocalDateTime registered_at;
+    private LocalDateTime registeredAt;
 }

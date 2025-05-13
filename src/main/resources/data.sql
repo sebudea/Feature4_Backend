@@ -25,3 +25,8 @@ INSERT INTO systemuser (name, email, created_at, role_id) VALUES
                                                         ('Charlie', 'charlie@example.com', NOW(), 3),
                                                         ('Alice', 'alice@example.com', NOW(), 4),
                                                         ('Bob', 'bob@example.com', NOW(), 5);
+
+-- UUID Generator
+SELECT gen_random_uuid();
+
+
