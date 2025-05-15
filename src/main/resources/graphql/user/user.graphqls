@@ -13,5 +13,12 @@ type Role {
 }
 
 input UserInput {
+    name: String!
+    email: String!
+    createdAt: String!
+    role: RoleInput!
+}
+
+input RoleInput{
     id: ID!
 }

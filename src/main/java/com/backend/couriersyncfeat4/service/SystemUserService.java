@@ -29,4 +29,8 @@ public class SystemUserService implements ISystemUserService {
     public SystemUser saveUser(SystemUser user) {
         return systemUserRepository.save(user);
     }
+
+    public SystemUser findUserByEmail(String email){
+        return systemUserRepository.findByEmail(email);
+    }
 }

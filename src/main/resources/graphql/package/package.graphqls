@@ -4,7 +4,7 @@ type Package {
     status: PackageStatus!
     trackingCode: String!
     description: String
-    registeredAt: String
+    registeredAt: String!
     destination: String
 }
 
