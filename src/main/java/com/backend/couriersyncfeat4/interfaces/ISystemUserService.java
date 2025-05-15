@@ -9,5 +9,6 @@ public interface ISystemUserService {
     List<SystemUser> findAllUsers();
     SystemUser findUserById(int id);
     SystemUser saveUser(SystemUser user);
+    SystemUser findUserByEmail(String email);
 
 }

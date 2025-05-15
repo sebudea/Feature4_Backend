@@ -25,4 +25,6 @@ public class SystemUser {
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
+
+
 }

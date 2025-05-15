@@ -4,7 +4,7 @@ type Location {
     packag: Package!
     latitude: Float
     longitude: Float
-    updatedAt: String
+    updatedAt: String!
     address: String
 }
 

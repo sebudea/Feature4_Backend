@@ -3,17 +3,22 @@
 type Query {
     findAllUsers: [User]!
     findUserById(id: ID!): User!
-    findAllPackages: [Package]!
+    currentUserRole: String!
+
+    findAllPackages: [Package!]!
     findPackageById(id: ID!): Package!
     findPackageByTrackingCode(code: String!): Package!
-    findAllLocations: [Location]!
-    findLocationById(id: ID!): Location!
-    findPackagesByDateRange(startDate: String!, endDate: String): [Package]!
+    findPackagesByDateRange(startDate: String!, endDate: String): [Package!]!
     findPackageCountByUserId(id: ID!): PackageCount!
-    findPackagesByStatusIn(packageStatuses: [Int]!): [Package]!
+    findPackagesByStatusIn(packageStatuses: [Int!]!): [Package!]!
+
+    findAllLocations: [Location!]!
+    findLocationById(id: ID!): Location!
 }
 
 type Mutation{
+    saveUser(user: UserInput!): CustomResponse!
+
     addPackage(packag: InputPackageAdd!): CustomResponse!
     updatePackage(packag: InputPackageUpdate!): CustomResponse!
     deletePackageById(id: ID!): CustomResponse!
