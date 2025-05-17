@@ -3,16 +3,16 @@ type Package {
     user: User!
     status: PackageStatus!
     trackingCode: String!
-    description: String
+    description: String!
     registeredAt: String!
-    destination: String
+    destination: String!
 }
 
 input InputPackageAdd {
     user: UserInput!
     status: PackageStatusInput!
-    description: String
-    destination: String
+    description: String!
+    destination: String!
 }
 
 input InputPackageUpdate {

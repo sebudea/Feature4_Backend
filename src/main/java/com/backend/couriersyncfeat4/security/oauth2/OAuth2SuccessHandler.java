@@ -58,15 +58,31 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 <head>
     <title>Autenticación Exitosa</title>
     <style>
+        html{
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            max-width: 100dvw;
+            max-height: 100dvh;
+        }
         body {
+            box-sizing: border-box;
+            padding: 0;
             font-family: Arial, sans-serif;
-            margin: 40px;
-            background-color: #f9f9f9;
+            margin: 0;
+            background-color: #121212;
             color: #333;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         h1 {
-            color: #4caf50;
+            color: #c763ff;
+        }
+        p {
+            color: #d264ed
         }
         code {
             display: block;
@@ -80,7 +96,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             font-size: 1.1em;
         }
         button {
-            background-color: #4caf50;
+            background-color: #4e176d;
             color: white;
             border: none;
             padding: 12px 24px;
@@ -99,18 +115,27 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             font-weight: bold;
             display: none;
         }
+        #container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%%;
+        }
     </style>
 </head>
 <body>
-    <h1>Autenticación Exitosa 🎉</h1>
-    <p>Tu token es:</p>
-    <code id="token">%s</code>
-    <div>
-        <button onclick="copyToken()">Copiar header</button>
-        <button onclick="window.location.href='/graphiql'">Ir a Graphiql</button>
+    <div id="container">
+        <h1>¡Autenticación Exitosa!</h1>
+        <p>Tu token JWT es:</p>
+        <code id="token">%s</code>
+        <div>
+            <button onclick="copyToken()">Copiar Header</button>
+            <button onclick="window.location.href='/graphiql'">Ir a Graphiql</button>
+        </div>
+        <p id="copyMsg">¡Token JWT copiado al portapapeles!</p>
+        <p>Puedes copiarlo y pegarlo en tu cliente GraphQL o aplicación.</p>
     </div>
-    <p id="copyMsg">¡Token copiado al portapapeles!</p>
-    <p>Puedes copiarlo y pegarlo en tu cliente GraphQL o aplicación.</p>
 
     <script>
         function copyToken() {
