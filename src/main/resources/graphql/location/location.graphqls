@@ -5,7 +5,7 @@ type Location {
     latitude: Float
     longitude: Float
     updatedAt: String!
-    address: String
+    address: String!
 }
 
 input InputLocationAdd {
@@ -13,7 +13,7 @@ input InputLocationAdd {
     packag: PackageInput!
     latitude: Float
     longitude: Float
-    address: String
+    address: String!
 }
 
 input InputLocationUpdate {
