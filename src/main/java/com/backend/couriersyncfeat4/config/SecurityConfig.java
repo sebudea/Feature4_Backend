@@ -5,6 +5,7 @@ import com.backend.couriersyncfeat4.security.jwt.JwtAuthenticationFilter;
 import com.backend.couriersyncfeat4.security.oauth2.CustomOAuth2UserService;
 import com.backend.couriersyncfeat4.security.oauth2.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -33,6 +34,9 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final CustomOAuth2UserService oAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
+
+    @Value("${BASE_URL}")
+    private String BASE_URL;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -65,7 +69,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:8080")); // Origen de tu frontend
+        configuration.setAllowedOrigins(List.of(BASE_URL)); // Origen de tu frontend
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
 
