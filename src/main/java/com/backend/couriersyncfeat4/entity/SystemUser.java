@@ -26,5 +26,4 @@ public class SystemUser {
     private Role role;
 
 
-
 }

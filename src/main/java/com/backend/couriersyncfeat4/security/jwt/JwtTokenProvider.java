@@ -2,7 +2,9 @@ package com.backend.couriersyncfeat4.security.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -12,19 +14,19 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    @Value("${app.jwt.secret}")
-    private String jwtSecret;
+    private final Environment env;
 
-    @Value("${app.jwt.expiration}")
-    private long jwtExpirationInMs;
+    public JwtTokenProvider(Environment env) {
+        this.env = env;
+    }
 
     private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(jwtSecret.getBytes());
+        return Keys.hmacShaKeyFor(env.getProperty("app.jwt.secret.code").getBytes());
     }
 
     public String generateToken(String email, String role) {
         Date now = new Date();
-        Date expiry = new Date(now.getTime() + jwtExpirationInMs);
+        Date expiry = new Date(now.getTime() + env.getProperty("app.jwt.expiration.time"));
 
         return Jwts.builder()
                 .subject(email)
