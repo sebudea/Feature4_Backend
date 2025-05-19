@@ -9,7 +9,7 @@ type Location {
 }
 
 input InputLocationAdd {
-    user: UserInput!
+    user: UserInputAux!
     packag: PackageInput!
     latitude: Float
     longitude: Float
@@ -18,7 +18,7 @@ input InputLocationAdd {
 
 input InputLocationUpdate {
     id: ID!
-    user: UserInput
+    user: UserInputAux
     latitude: Float
     longitude: Float
     address: String

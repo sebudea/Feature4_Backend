@@ -19,6 +19,10 @@ input UserInput {
     role: RoleInput!
 }
 
+input UserInputAux {
+    id: ID!
+}
+
 input RoleInput{
     id: ID!
 }

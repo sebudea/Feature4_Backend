@@ -4,29 +4,39 @@
 # Note: the exclamation mark (!) indicates that the variable cannot be null.
 # Some variables are still pending this adjustment.
 
-query {
+query UsersQuery {
   findAllUsers {
     id
     name
-    email 
+    email
     createdAt
     role {
       id
       name
-      description
     }
   }
 
   findUserById(id: 1) {
+    id
     name
+    email
+    createdAt
+    role {
+      id
+      name
+    }
   }
+}
 
+query PackagesQuery{
   findAllPackages {
     id
     user {
+      id
       name
     }
     status {
+      id
       name
     }
     trackingCode
@@ -36,7 +46,19 @@ query {
   }
 
   findPackageById(id: 6) {
+    id
+    user {
+      id
+      name
+    }
+    status {
+      id
+      name
+    }
     trackingCode
+    description
+    registeredAt
+    destination
   }
 
   findPackageByTrackingCode(code: "60bd0ee5-ad46-4855-9e9f-0653eeb99fce") {
@@ -49,13 +71,11 @@ query {
       role {
         id
         name
-        description
       }
     }
     status {
       id
       name
-      description
     }
     trackingCode
     registeredAt
@@ -73,13 +93,11 @@ query {
       role {
         id
         name
-        description
       }
     }
     status {
       id
       name
-      description
     }
     trackingCode
     registeredAt
@@ -91,7 +109,7 @@ query {
     userId
     packageCount
   }
-    
+
   findPackagesByStatusIn(packageStatuses: [1,2]) {
     id
     user {
@@ -102,26 +120,64 @@ query {
       role {
         id
         name
-        description
       }
     }
     status {
       id
       name
-      description
     }
     trackingCode
     registeredAt
     description
     destination
   }
+}
 
+mutation PackagesMutation{
+  	addPackage(
+     packag: {
+       	user: {
+         	id: 1
+        }
+       	status: {
+         	id: 2
+       	}
+      	description: "paquete"
+      	destination:"Medellin"
+     }
+   ) {
+     success
+     message
+   }
+
+    updatePackage(
+       packag: {
+         id: 6
+         user: {id: 2}
+         status: {id: 2}
+         description: "testaaaaaaa"
+         destination: "Medellín"
+       }
+     ) {
+       success
+       message
+   }
+
+   deletePackageById(id: 10) {
+     success
+     message
+   }
+}
+
+query LocationsQuery{
   findAllLocations {
     id
     user {
+      id
       name
     }
     packag {
+      id
       trackingCode
     }
     latitude
@@ -131,82 +187,55 @@ query {
   }
 
   findLocationById(id: 1) {
+    id
+    user {
+      id
+      name
+    }
     packag {
+      id
       trackingCode
     }
+    latitude
+    longitude
+    updatedAt
     address
   }
 }
 
-# mutation {
-#   addPackage(
-#     packag: {
-#       user: {
-#         id: 1
-#       }
-#       status: {
-#         id: 2
-#       }
-#     }
-#   ) {
-#     success
-#     message
-#   }
-# }
+mutation LocationsMutation{
+  addLocation(
+     location: {
+       user: {
+         id: 1
+       }
+       packag: {
+         id: 6
+       }
+      latitude: 42
+      longitude: 22
+      address: "nariño"
+     }
+   ) {
+     success
+     message
+   }
 
-# mutation {
-#   updatePackage(
-#     packag: {
-#       id: 6
-#       user: {id: 2}
-#       status: {id: 2}
-#       description: "test"
-#       destination: "Medellín"
-#     }
-#   ) {
-#     success
-#     message
-#   }
-# }
+   updateLocation(
+     location: {
+       id: 1
+       address: "casanare"
+     }
+   ) {
+     success
+     message
+   }
 
-# mutation {
-#   deletePackageById(id: 7) {
-#     success
-#     message
-#   }
-# }
+   deleteLocationById(id: 2) {
+     success
+     message
+   }
+}
 
-# mutation {
-#   addLocation(
-#     location: {
-#       user: {
-#         id: 1
-#       }
-#       packag: {
-#         id: 6
-#       }
-#     }
-#   ) {
-#     success
-#     message
-#   }
-# }
-
-# mutation {
-#   updateLocation(
-#     location: {
-#       id: 1
-#       address: "Bogotá"
-#     }
-#   ) {
-#     success
-#     message
-#   }
-# }
-
-# mutation {
-#   deleteLocationById(id: 3) {
-#     success
-#     message
-#   }
-# }
+EXAMPLE HEADER:
+{"Authorization":"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzYW50aWFnby50Ym9saXZhckB1ZGVhLmVkdS5jbyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc0NzYyMjU1OSwiZXhwIjoxNzQ3NjI2MTU5fQ.nvg51ORoq4l31yDWasHvdIjUSLlWT8FAx6XKUi_a1yo"}

@@ -9,7 +9,7 @@ type Package {
 }
 
 input InputPackageAdd {
-    user: UserInput!
+    user: UserInputAux!
     status: PackageStatusInput!
     description: String!
     destination: String!
@@ -17,7 +17,7 @@ input InputPackageAdd {
 
 input InputPackageUpdate {
     id: ID!
-    user: UserInput
+    user: UserInputAux
     status: PackageStatusInput
     description: String
     destination: String
