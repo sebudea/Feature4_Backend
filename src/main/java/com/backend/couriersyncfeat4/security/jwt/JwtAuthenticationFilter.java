@@ -29,10 +29,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         // Ignora las rutas de OAuth2
-        if (request.getRequestURI().startsWith("/oauth2/")) {
+        if (request.getRequestURI().startsWith("/oauth2")) {
             filterChain.doFilter(request, response);
             return;
         }
+
 
         String header = request.getHeader("Authorization");
         if (header != null && header.startsWith("Bearer ")) {

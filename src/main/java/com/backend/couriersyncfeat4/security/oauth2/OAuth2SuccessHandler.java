@@ -32,13 +32,13 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
-
+    try{
         DefaultOAuth2User oauthUser = (DefaultOAuth2User) authentication.getPrincipal();
 
         //TODO: Check this code
         String role;
         String email;
-        if(adminEmail!=null){
+        if(adminEmail!=null && adminEmail.equals(oauthUser.getAttribute("email"))){
             role = "ADMIN";
             email = adminEmail;
         } else {
@@ -162,6 +162,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 </html>
 """.formatted(token));
         response.getWriter().flush();
+    } catch (Exception e) {
+        e.printStackTrace();
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al procesar autenticación OAuth2: " + e.getMessage());
+    }
 
     }
 }
