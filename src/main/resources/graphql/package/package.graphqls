@@ -1,25 +1,28 @@
 type Package {
     id: ID!
-    user: User!
+    ownerUser: User
     status: PackageStatus!
     trackingCode: String!
     description: String!
     registeredAt: String!
+    origin: String!
     destination: String!
 }
 
 input InputPackageAdd {
-    user: UserInputAux!
+    ownerUser: UserInputAux!
     status: PackageStatusInput!
-    description: String!
+    description: String
+    origin: String!
     destination: String!
 }
 
 input InputPackageUpdate {
     id: ID!
-    user: UserInputAux
+    ownerUser: UserInputAux
     status: PackageStatusInput
     description: String
+    origin: String
     destination: String
 }
 

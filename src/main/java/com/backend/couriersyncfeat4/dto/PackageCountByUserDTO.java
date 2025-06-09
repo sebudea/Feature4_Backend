@@ -5,13 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class PackageCountByUserDTO {
-    private int userId;
-    private int packageCount;
+    private Long userId;
+    private Long packageCount;
 
-    public PackageCountByUserDTO(int userId, Long count) {
-        this.userId = userId;
-        this.packageCount = count.intValue();
-    }
 }

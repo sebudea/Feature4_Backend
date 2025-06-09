@@ -1,7 +1,7 @@
 package com.backend.couriersyncfeat4.controller;
 
 import com.backend.couriersyncfeat4.dto.PackageCountByUserDTO;
-import com.backend.couriersyncfeat4.entity.CustomResponse;
+import com.backend.couriersyncfeat4.entity.CustomResponseEntity;
 import com.backend.couriersyncfeat4.entity.PackageEntity;
 import com.backend.couriersyncfeat4.interfaces.IPackageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.List;
 @Controller
 public class PackageController {
 
-    IPackageService packageService;
+    private final IPackageService packageService;
 
     @Autowired
     public PackageController(IPackageService packageService) {
@@ -26,8 +26,8 @@ public class PackageController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @MutationMapping
-    public CustomResponse addPackage(@Argument PackageEntity packag){
-        return packageService.addPackage(packag);
+    public CustomResponseEntity addPackage(@Argument PackageEntity packageEntity){
+        return packageService.addPackage(packageEntity);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
@@ -38,26 +38,26 @@ public class PackageController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @QueryMapping
-    public PackageEntity findPackageById(@Argument int id) {
+    public PackageEntity findPackageById(@Argument Long id) {
         return packageService.findPackageById(id);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @MutationMapping
-    public CustomResponse updatePackage(@Argument PackageEntity packag){
-        return packageService.updatePackage(packag);
+    public CustomResponseEntity updatePackage(@Argument PackageEntity packageEntity){
+        return packageService.updatePackage(packageEntity);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @MutationMapping
-    public CustomResponse deletePackageById(@Argument int id){
+    public CustomResponseEntity deletePackageById(@Argument Long id){
         return packageService.deletePackageById(id);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @QueryMapping
-    public PackageEntity findPackageByTrackingCode(@Argument String code){
-        return packageService.findPackageByTrackingCode(code);
+    public PackageEntity findPackageByTrackingCode(@Argument String trackingCode){
+        return packageService.findPackageByTrackingCode(trackingCode);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
@@ -68,7 +68,7 @@ public class PackageController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @QueryMapping
-    public PackageCountByUserDTO findPackageCountByUserId (@Argument int id) {
+    public PackageCountByUserDTO findPackageCountByUserId (@Argument Long id) {
         return packageService.findPackageCountByUserId(id);
     }
 
@@ -78,4 +78,9 @@ public class PackageController {
         return packageService.findPackagesByStatusIn(packageStatuses);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @QueryMapping
+    public List<PackageCountByUserDTO> findPackageCountByAllUsers() {
+        return packageService.findCountByAllUsers();
+    }
 }

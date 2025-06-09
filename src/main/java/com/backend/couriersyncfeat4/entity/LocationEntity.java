@@ -12,25 +12,26 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Location {
+public class LocationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name="user_id", nullable = false)
-    private SystemUser user;
+    @JoinColumn(name="handler_user_id", nullable = false)
+    private UserEntity handlerUser;
 
     @ManyToOne
     @JoinColumn(name="package_id", nullable = false)
-    private PackageEntity packag;
+    private PackageEntity packageEntity;
 
     private Float latitude;
     private Float longitude;
 
-    @Column(nullable = false, insertable = false, updatable = false)
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @Column(nullable = false)
     private String address;
 }

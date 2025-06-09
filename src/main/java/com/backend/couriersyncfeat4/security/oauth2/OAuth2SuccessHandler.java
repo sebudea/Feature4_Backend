@@ -1,9 +1,8 @@
 package com.backend.couriersyncfeat4.security.oauth2;
 
-import com.backend.couriersyncfeat4.entity.SystemUser;
-import com.backend.couriersyncfeat4.interfaces.ISystemUserService;
+import com.backend.couriersyncfeat4.entity.UserEntity;
+import com.backend.couriersyncfeat4.interfaces.IUserService;
 import com.backend.couriersyncfeat4.security.jwt.JwtTokenProvider;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,12 +17,12 @@ import java.io.IOException;
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final ISystemUserService systemUserService;
+    private final IUserService systemUserService;
 
     @Value("${app.admin.email}")
     private String adminEmail;
 
-    public OAuth2SuccessHandler(JwtTokenProvider jwtTokenProvider, ISystemUserService systemUserService) {
+    public OAuth2SuccessHandler(JwtTokenProvider jwtTokenProvider, IUserService systemUserService) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.systemUserService = systemUserService;
     }
@@ -43,9 +42,9 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             email = adminEmail;
         } else {
             email = oauthUser.getAttribute("email");
-            SystemUser user = systemUserService.findUserByEmail(email);
+            UserEntity user = systemUserService.findUserByEmail(email);
             if (user != null) {
-                role = user.getRole().getName().toUpperCase();
+                role = user.getRoleEntity().getName().toUpperCase();
             } else {
                 role = "USER";
             }
@@ -163,7 +162,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 """.formatted(token));
         response.getWriter().flush();
     } catch (Exception e) {
-        e.printStackTrace();
         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al procesar autenticación OAuth2: " + e.getMessage());
     }
 

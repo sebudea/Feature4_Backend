@@ -1,12 +1,11 @@
 package com.backend.couriersyncfeat4.service;
 
-import com.backend.couriersyncfeat4.entity.CustomResponse;
-import com.backend.couriersyncfeat4.entity.Location;
+import com.backend.couriersyncfeat4.entity.CustomResponseEntity;
+import com.backend.couriersyncfeat4.entity.LocationEntity;
 import com.backend.couriersyncfeat4.entity.PackageEntity;
-import com.backend.couriersyncfeat4.entity.SystemUser;
+import com.backend.couriersyncfeat4.entity.UserEntity;
 import com.backend.couriersyncfeat4.interfaces.ILocationService;
 import com.backend.couriersyncfeat4.repository.LocationRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,71 +13,85 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@Slf4j
 public class LocationService implements ILocationService {
 
+    private final LocationRepository locationRepository;
+    private final UserService userService;
+    private final PackageService packageService;
+
     @Autowired
-    LocationRepository locationRepository;
-    @Autowired
-    SystemUserService systemUserService;
-    @Autowired
-    PackageService packageService;
-
-    // TODO: make validations in each function
-    public CustomResponse addLocation(Location location){
-
-        if (location == null) {
-            return new CustomResponse(false, "Location is null");
-        }
-
-        SystemUser systemUser = systemUserService.findUserById(location.getUser().getId());
-        PackageEntity packag = packageService.findPackageById(location.getPackag().getId());
-
-        Location locationAux = new Location();
-        locationAux.setUser(systemUser);
-        locationAux.setPackag(packag);
-        locationAux.setLatitude(location.getLatitude());
-        locationAux.setLongitude(location.getLongitude());
-        locationAux.setAddress(location.getAddress());
-
-        locationRepository.save(locationAux);
-        return new CustomResponse(true, "Location successfully added");
+    public LocationService(LocationRepository locationRepository, UserService userService, PackageService packageService) {
+        this.locationRepository = locationRepository;
+        this.userService = userService;
+        this.packageService = packageService;
     }
 
-    public List<Location> findAllLocations() {
+    // TODO: make validations in each function
+    public CustomResponseEntity addLocation(LocationEntity locationEntity){
+
+        if (locationEntity == null || locationEntity.getHandlerUser() == null || locationEntity.getPackageEntity() == null
+        || locationEntity.getAddress() == null) {
+            return new CustomResponseEntity(false, "LocationEntity, user, package or address are null");
+        }
+
+        UserEntity userEntity = userService.findUserById(locationEntity.getHandlerUser().getId());
+        PackageEntity packageEntity = packageService.findPackageById(locationEntity.getPackageEntity().getId());
+
+        LocationEntity locationEntityAux = new LocationEntity();
+        locationEntityAux.setHandlerUser(userEntity);
+        locationEntityAux.setPackageEntity(packageEntity);
+        locationEntityAux.setLatitude(locationEntity.getLatitude());
+        locationEntityAux.setLongitude(locationEntity.getLongitude());
+        locationEntityAux.setAddress(locationEntity.getAddress());
+        locationEntityAux.setUpdatedAt(LocalDateTime.now());
+
+        locationRepository.save(locationEntityAux);
+        return new CustomResponseEntity(true, "LocationEntity successfully added");
+    }
+
+    public List<LocationEntity> findAllLocations() {
         return locationRepository.findAll();
     }
 
-    public Location findLocationById(int id) {
+    public LocationEntity findLocationById(Long id) {
         return locationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Location not found"));
+                .orElseThrow(() -> new RuntimeException("LocationEntity not found"));
     }
 
-    public CustomResponse updateLocation(Location location) {
-        if (!locationRepository.existsById(location.getId())) {
-            return new CustomResponse(false, "Location not found for update");
+    public CustomResponseEntity updateLocation(LocationEntity locationEntity) {
+        if (!locationRepository.existsById(locationEntity.getId())) {
+            return new CustomResponseEntity(false, "LocationEntity not found for update");
         }
-        if (location.getUser() != null) {
-            SystemUser systemUser = systemUserService.findUserById(location.getUser().getId());
-            location.setUser(systemUser);
-        }
-        Location oldLocation = findLocationById(location.getId());
-        location.setUser(location.getUser() != null ? location.getUser() : oldLocation.getUser());
-        location.setPackag(location.getPackag() != null ? location.getPackag() : oldLocation.getPackag());
-        location.setLatitude(location.getLatitude() != null ? location.getLatitude() : oldLocation.getLatitude());
-        location.setLongitude(location.getLongitude() != null ? location.getLongitude() : oldLocation.getLongitude());
-        location.setAddress(location.getAddress() != null ? location.getAddress() : oldLocation.getAddress());
-        location.setUpdatedAt(LocalDateTime.now());
 
-        locationRepository.save(location);
-        return new CustomResponse(true, "Location successfully updated");
+        LocationEntity oldLocationEntity = findLocationById(locationEntity.getId());
+
+        UserEntity userEntity = (locationEntity.getHandlerUser() != null) ? locationEntity.getHandlerUser() : oldLocationEntity.getHandlerUser();
+
+        PackageEntity packageEntity = (locationEntity.getPackageEntity() != null) ? locationEntity.getPackageEntity() : oldLocationEntity.getPackageEntity();
+
+        Float latitude = (locationEntity.getLatitude() != null) ? locationEntity.getLatitude() : oldLocationEntity.getLatitude();
+
+        Float longitude = (locationEntity.getLongitude() != null) ? locationEntity.getLongitude() : oldLocationEntity.getLongitude();
+
+        String address = (locationEntity.getAddress() != null) ? locationEntity.getAddress() : oldLocationEntity.getAddress();
+
+        oldLocationEntity.setHandlerUser(userEntity);
+        oldLocationEntity.setPackageEntity(packageEntity);
+        oldLocationEntity.setLatitude(latitude);
+        oldLocationEntity.setLongitude(longitude);
+        oldLocationEntity.setAddress(address);
+        oldLocationEntity.setUpdatedAt(LocalDateTime.now());
+
+        locationRepository.save(oldLocationEntity);
+        return new CustomResponseEntity(true, "LocationEntity successfully updated");
     }
 
-    public CustomResponse deleteLocationById(int id) {
+
+    public CustomResponseEntity deleteLocationById(Long id) {
         if (!locationRepository.existsById(id)) {
-            return new CustomResponse(false, "Location with ID " + id + " does not exist");
+            return new CustomResponseEntity(false, "LocationEntity with ID " + id + " does not exist");
         }
         locationRepository.deleteById(id);
-        return new CustomResponse(true, "Location with ID " + id + " has been successfully deleted ");
+        return new CustomResponseEntity(true, "LocationEntity with ID " + id + " has been successfully deleted ");
     }
 }
