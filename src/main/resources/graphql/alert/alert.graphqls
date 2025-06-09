@@ -1,0 +1,14 @@
+type Alert{
+    id: ID!
+    user: User!
+    packageEntity: Package!
+    alertTypeEntity: AlertType!
+    description: String!
+    registeredAt: String!
+}
+
+type AlertType{
+    id: ID!
+    name: String!
+    description: String
+}

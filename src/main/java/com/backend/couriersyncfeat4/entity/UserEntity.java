@@ -7,23 +7,28 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "systemuser")
+@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class SystemUser {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
+    private RoleEntity roleEntity;
 
 
 }

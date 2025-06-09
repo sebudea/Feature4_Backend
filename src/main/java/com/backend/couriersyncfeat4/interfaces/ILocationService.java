@@ -1,17 +1,17 @@
 package com.backend.couriersyncfeat4.interfaces;
 
-import com.backend.couriersyncfeat4.entity.CustomResponse;
-import com.backend.couriersyncfeat4.entity.Location;
+import com.backend.couriersyncfeat4.entity.CustomResponseEntity;
+import com.backend.couriersyncfeat4.entity.LocationEntity;
 
 import java.util.List;
 
 public interface ILocationService {
 
-    CustomResponse addLocation(Location location);
-    List<Location> findAllLocations();
-    Location findLocationById(int id);
-    CustomResponse updateLocation(Location location);
-    CustomResponse deleteLocationById(int id);
+    CustomResponseEntity addLocation(LocationEntity locationEntity);
+    List<LocationEntity> findAllLocations();
+    LocationEntity findLocationById(Long id);
+    CustomResponseEntity updateLocation(LocationEntity locationEntity);
+    CustomResponseEntity deleteLocationById(Long id);
     //findLastLocationByPackage
     //findPackagesNotUpdatedInDate
 

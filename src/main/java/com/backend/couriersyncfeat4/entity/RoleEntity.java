@@ -6,12 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="package_status")
+@Table(name = "role")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PackageStatus {
-
+public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

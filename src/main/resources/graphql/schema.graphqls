@@ -1,32 +1,55 @@
-#TODO: Definir si devolver el Package, Location y User completo, o optar por DTOS
+#TODO: Definir si devolver el Package, LocationEntity y User completo, o optar por DTOS
 #TODO: Validar si es necesario el [!]
 type Query {
-    findAllUsers: [User]!
+    findAllUsers: [User!]!
     findUserById(id: ID!): User!
     currentUserRole: String!
 
+    findAllRoles: [Role!]!
+    findRoleById(id: ID!): Role!
+
     findAllPackages: [Package!]!
     findPackageById(id: ID!): Package!
-    findPackageByTrackingCode(code: String!): Package!
+    findPackageByTrackingCode(trackingCode: String!): Package!
     findPackagesByDateRange(startDate: String!, endDate: String): [Package!]!
     findPackageCountByUserId(id: ID!): PackageCount!
     findPackagesByStatusIn(packageStatuses: [Int!]!): [Package!]!
+    findPackageCountByAllUsers: [PackageCount]!
+
+    findAllPackagesStatus: [PackageStatus!]!
+    findPackageStatusById(id: ID!): PackageStatus!
 
     findAllLocations: [Location!]!
     findLocationById(id: ID!): Location!
+
+    findAllAlerts: [Alert!]!
+    findAllAlertsByUserId(id: ID!): [Alert!]!
+
+    findAllAlertTypes: [AlertType!]!
+    findAlertTypeById(id: ID!): AlertType!
 }
 
 type Mutation{
     saveUser(user: UserInput!): CustomResponse!
+    deleteUser(id: ID!): CustomResponse!
 
-    addPackage(packag: InputPackageAdd!): CustomResponse!
-    updatePackage(packag: InputPackageUpdate!): CustomResponse!
+    addPackage(packageEntity: InputPackageAdd!): CustomResponse!
+    updatePackage(packageEntity: InputPackageUpdate!): CustomResponse!
     deletePackageById(id: ID!): CustomResponse!
 
     addLocation(location: InputLocationAdd!): CustomResponse!
     updateLocation(location: InputLocationUpdate!): CustomResponse!
     deleteLocationById(id: ID!): CustomResponse!
+
+    sendMessageToUser(userId: ID!, message: String!): Boolean!
+    sendAlertToUser(userId: ID!, packageId: ID!, alertTypeId: ID!, description: String!): Boolean!
 }
+
+type Subscription {
+    subscribeToUserMessages(userId: ID!): String!
+    subscribeToUserAlerts(userId: ID!): Alert!
+}
+
 
 
 

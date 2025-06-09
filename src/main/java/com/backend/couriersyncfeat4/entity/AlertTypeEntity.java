@@ -3,7 +3,6 @@ package com.backend.couriersyncfeat4.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class AlertType {
+public class AlertTypeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

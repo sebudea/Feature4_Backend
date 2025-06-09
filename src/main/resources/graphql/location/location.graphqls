@@ -1,7 +1,7 @@
 type Location {
     id: ID!
-    user: User!
-    packag: Package!
+    handlerUser: User!
+    packageEntity: Package!
     latitude: Float
     longitude: Float
     updatedAt: String!
@@ -9,8 +9,8 @@ type Location {
 }
 
 input InputLocationAdd {
-    user: UserInputAux!
-    packag: PackageInput!
+    handlerUser: UserInputAux!
+    packageEntity: PackageInput!
     latitude: Float
     longitude: Float
     address: String!
@@ -18,7 +18,7 @@ input InputLocationAdd {
 
 input InputLocationUpdate {
     id: ID!
-    user: UserInputAux
+    handlerUser: UserInputAux
     latitude: Float
     longitude: Float
     address: String

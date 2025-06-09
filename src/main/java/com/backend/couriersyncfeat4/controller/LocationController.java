@@ -1,7 +1,7 @@
 package com.backend.couriersyncfeat4.controller;
 
-import com.backend.couriersyncfeat4.entity.CustomResponse;
-import com.backend.couriersyncfeat4.entity.Location;
+import com.backend.couriersyncfeat4.entity.CustomResponseEntity;
+import com.backend.couriersyncfeat4.entity.LocationEntity;
 import com.backend.couriersyncfeat4.interfaces.ILocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -15,7 +15,7 @@ import java.util.List;
 @Controller
 public class LocationController {
 
-    ILocationService locationService;
+    private final ILocationService locationService;
 
     @Autowired
     public LocationController(ILocationService locationService) {
@@ -24,31 +24,31 @@ public class LocationController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @MutationMapping
-    public CustomResponse addLocation(@Argument Location location){
+    public CustomResponseEntity addLocation(@Argument LocationEntity location){
         return locationService.addLocation(location);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @QueryMapping
-    public List<Location> findAllLocations() {
+    public List<LocationEntity> findAllLocations() {
         return locationService.findAllLocations();
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @QueryMapping
-    public Location findLocationById(@Argument int id) {
+    public LocationEntity findLocationById(@Argument Long id) {
         return locationService.findLocationById(id);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @MutationMapping
-    public CustomResponse updateLocation(@Argument Location location){
+    public CustomResponseEntity updateLocation(@Argument LocationEntity location){
         return locationService.updateLocation(location);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @MutationMapping
-    public CustomResponse deleteLocationById(@Argument int id){
+    public CustomResponseEntity deleteLocationById(@Argument Long id){
         return locationService.deleteLocationById(id);
     }
 }

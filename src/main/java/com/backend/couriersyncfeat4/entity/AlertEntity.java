@@ -12,24 +12,34 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Alert {
+public class AlertEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
-    private SystemUser user;
+    private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name="package_id", nullable = false)
-    private PackageEntity packag;
+    private PackageEntity packageEntity;
 
     @ManyToOne
     @JoinColumn(name="alert_type_id", nullable = false)
-    private AlertType alertType;
+    private AlertTypeEntity alertTypeEntity;
 
     private String description;
+
+    @Column(nullable = false, updatable = false)
     private LocalDateTime registeredAt;
+
+    // TODO: Revisar la Pre Persistencia
+    @PrePersist
+    public void prePersist() {
+        if (registeredAt == null) {
+            registeredAt = LocalDateTime.now();
+        }
+    }
 }

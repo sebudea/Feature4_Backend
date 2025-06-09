@@ -1,4 +1,4 @@
 type CustomResponse {
-    success: Boolean!
+    status: Boolean!
     message: String!
 }

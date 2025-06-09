@@ -1,8 +1,8 @@
 package com.backend.couriersyncfeat4.controller;
 
-import com.backend.couriersyncfeat4.entity.SystemUser;
-import com.backend.couriersyncfeat4.interfaces.IPackageService;
-import com.backend.couriersyncfeat4.interfaces.ISystemUserService;
+import com.backend.couriersyncfeat4.entity.CustomResponseEntity;
+import com.backend.couriersyncfeat4.entity.UserEntity;
+import com.backend.couriersyncfeat4.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -17,31 +17,37 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class SystemUserController {
+public class UserController {
 
-    ISystemUserService systemUserService;
+    private final IUserService userService;
 
     @Autowired
-    public SystemUserController(ISystemUserService systemUserService) {
-        this.systemUserService = systemUserService;
+    public UserController(IUserService userService) {
+        this.userService = userService;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @QueryMapping
-    public List<SystemUser> findAllUsers() {
-        return systemUserService.findAllUsers();
+    public List<UserEntity> findAllUsers() {
+        return userService.findAllUsers();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @QueryMapping
-    public SystemUser findUserById(@Argument int id) {
-        return systemUserService.findUserById(id);
+    public UserEntity findUserById(@Argument Long id) {
+        return userService.findUserById(id);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @MutationMapping
-    public SystemUser saveUser(@Argument SystemUser user) {
-        return systemUserService.saveUser(user);
+    public CustomResponseEntity saveUser(@Argument UserEntity user) {
+        return userService.addUser(user);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @MutationMapping
+    public CustomResponseEntity deleteUser(@Argument Long id){
+        return userService.deleteUser(id);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
