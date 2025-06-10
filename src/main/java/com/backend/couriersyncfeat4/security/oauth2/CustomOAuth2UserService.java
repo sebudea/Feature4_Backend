@@ -11,11 +11,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        OAuth2User user = super.loadUser(userRequest);
-
-        // Extraer info de user.getAttributes()
-        // y crear lógica para registrar usuario en BD
-
-        return user;
+        return super.loadUser(userRequest);
     }
 }

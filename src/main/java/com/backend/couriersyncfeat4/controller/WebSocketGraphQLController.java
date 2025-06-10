@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.SubscriptionMapping;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks;
@@ -26,35 +25,33 @@ public class WebSocketGraphQLController {
         this.alertService = alertService;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @MutationMapping
     public boolean sendMessageToUser(
-            @Argument String userId,
+            @Argument Long userId,
             @Argument String message) {
 
         if (userId == null || message == null) {
             throw new IllegalArgumentException("UserId y message son requeridos");
         }
 
-        Sinks.Many<String> sink = userChannels.get(userId);
+        Sinks.Many<String> sink = userChannels.get(userId.toString());
         if (sink != null) {
-            Sinks.EmitResult result = sink.tryEmitNext("Usuario " + userId + ": " + message);
+            Sinks.EmitResult result = sink.tryEmitNext(message);
             return !result.isFailure();
         }
         return false;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @SubscriptionMapping
-    public Flux<String> subscribeToUserMessages(@Argument String userId) {
+    public Flux<String> subscribeToUserMessages(@Argument Long userId) {
         return userChannels
-                .computeIfAbsent(userId, id -> {
+                .computeIfAbsent(userId.toString(), id -> {
                     Sinks.Many<String> newSink = Sinks.many().multicast().onBackpressureBuffer();
 
                     // Limpieza cuando el cliente se desconecta
                     newSink.asFlux()
-                            .doOnCancel(() -> userChannels.remove(userId, newSink))
-                            .doOnError(ex -> userChannels.remove(userId, newSink))
+                            .doOnCancel(() -> userChannels.remove(id, newSink))
+                            .doOnError(ex -> userChannels.remove(id, newSink))
                             .subscribe();
 
                     return newSink;
@@ -62,7 +59,6 @@ public class WebSocketGraphQLController {
                 .asFlux();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @MutationMapping
     public Boolean sendAlertToUser(
             @Argument Long userId,
@@ -84,7 +80,6 @@ public class WebSocketGraphQLController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @SubscriptionMapping
     public Flux<AlertEntity> subscribeToUserAlerts(@Argument Long userId) {
         return userAlertChannels
