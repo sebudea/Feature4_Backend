@@ -39,4 +39,11 @@ public interface PackageRepository extends JpaRepository<PackageEntity, Long> {
 
     List<PackageEntity> findByStatusIn(List<PackageStatusEntity> packageStatusEntities);
 
+    List<PackageEntity> findAllByOwnerUser_Id(Long ownerUserId);
+
+    List<PackageEntity> findAllByDestination(String destination);
+
+    List<PackageEntity> findAllByOrigin(String origin);
+
+    List<PackageEntity> findAllByOriginAndDestination(String origin, String destination);
 }

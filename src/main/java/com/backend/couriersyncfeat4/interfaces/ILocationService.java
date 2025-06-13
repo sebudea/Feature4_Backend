@@ -7,13 +7,14 @@ import java.util.List;
 
 public interface ILocationService {
 
-    CustomResponseEntity addLocation(LocationEntity locationEntity);
+    LocationEntity addLocation(LocationEntity locationEntity);
     List<LocationEntity> findAllLocations();
     LocationEntity findLocationById(Long id);
     CustomResponseEntity updateLocation(LocationEntity locationEntity);
     CustomResponseEntity deleteLocationById(Long id);
+    List<LocationEntity> findAllLocationsByPackageEntityId(Long packageId);
+    LocationEntity findLastLocationByPackageEntityId(Long packageId);
+    List<LocationEntity> findAllLocationsByUserId(Long userId);
     //findLastLocationByPackage
-    //findPackagesNotUpdatedInDate
-
 
 }

@@ -19,6 +19,7 @@ input InputLocationAdd {
 input InputLocationUpdate {
     id: ID!
     handlerUser: UserInputAux
+    packageEntity: PackageInput
     latitude: Float
     longitude: Float
     address: String

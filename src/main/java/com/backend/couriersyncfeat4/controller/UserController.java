@@ -40,7 +40,7 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @MutationMapping
-    public CustomResponseEntity saveUser(@Argument UserEntity user) {
+    public UserEntity addUser(@Argument UserEntity user) {
         return userService.addUser(user);
     }
 

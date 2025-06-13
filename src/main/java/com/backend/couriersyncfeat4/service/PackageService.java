@@ -28,11 +28,11 @@ public class PackageService implements IPackageService {
     }
 
     // TODO: make validations in each function
-    public CustomResponseEntity addPackage(PackageEntity packageEntity) {
+    public PackageEntity addPackage(PackageEntity packageEntity) {
 
         if (packageEntity == null || packageEntity.getOrigin() == null || packageEntity.getDestination() == null
         || packageEntity.getOwnerUser() == null || packageEntity.getStatus() == null) {
-            return new CustomResponseEntity(false, "Package, origin, destination, user or status are null");
+            throw new RuntimeException("Some value is null");
         }
 
         UserEntity userEntity = userService.findUserById(packageEntity.getOwnerUser().getId());
@@ -47,7 +47,7 @@ public class PackageService implements IPackageService {
         packageEntityAux.setRegisteredAt(LocalDateTime.now());
 
         packageRepository.save(packageEntityAux);
-        return new CustomResponseEntity(true, "Package successfully added");
+        return packageEntityAux;
     }
 
     public List<PackageEntity> findAllPackages() {
@@ -90,7 +90,7 @@ public class PackageService implements IPackageService {
         oldPackageEntity.setOrigin(origin);
         oldPackageEntity.setDestination(destination);
 
-        packageRepository.save(packageEntity);
+        packageRepository.save(oldPackageEntity);
         return new CustomResponseEntity(true, "Package successfully updated");
     }
 
@@ -113,13 +113,13 @@ public class PackageService implements IPackageService {
         return Collections.emptyList();
     }
 
-    public PackageCountByUserDTO findPackageCountByUserId(Long id){
-        PackageCountByUserDTO packageCountByUserDTO = packageRepository.findCountByUserId(id);
+    public PackageCountByUserDTO findPackageCountByUserId(Long userId){
+        PackageCountByUserDTO packageCountByUserDTO = packageRepository.findCountByUserId(userId);
         if (packageCountByUserDTO != null && packageCountByUserDTO.getUserId() != null && packageCountByUserDTO.getPackageCount() != null){
             return packageCountByUserDTO;
         }
         PackageCountByUserDTO packageCountByUserNew = new PackageCountByUserDTO();
-        packageCountByUserNew.setUserId(id);
+        packageCountByUserNew.setUserId(userId);
         packageCountByUserNew.setPackageCount((long) 0);
         return packageCountByUserNew;
     }
@@ -137,6 +137,24 @@ public class PackageService implements IPackageService {
 
     public List<PackageCountByUserDTO> findCountByAllUsers(){
         return packageRepository.findCountByAllUsers();
+    }
+
+    public List<PackageEntity> findAllPackagesByUserId(Long userId){
+        return packageRepository.findAllByOwnerUser_Id(userId);
+    }
+
+    public List<PackageEntity> findAllPackagesByUbication(String origin, String destination){
+        if((origin == null || origin.isEmpty()) && (destination == null || destination.isEmpty())){
+            return Collections.emptyList();
+        }
+
+        if ((origin == null || origin.trim().isEmpty()) && (destination != null)){
+            return packageRepository.findAllByDestination(destination);
+        }
+        else if((destination == null || destination.trim().isEmpty())){
+            return packageRepository.findAllByOrigin(origin);
+        }
+        return packageRepository.findAllByOriginAndDestination(origin, destination);
     }
 
 }

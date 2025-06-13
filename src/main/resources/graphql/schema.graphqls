@@ -1,6 +1,6 @@
 #TODO: Definir si devolver el Package, LocationEntity y User completo, o optar por DTOS
 #TODO: Validar si es necesario el [!]
-type Query {
+type Query { #34
     findAllUsers: [User!]!
     findUserById(id: ID!): User!
     currentUserRole: String!
@@ -8,19 +8,24 @@ type Query {
     findAllRoles: [Role!]!
     findRoleById(id: ID!): Role!
 
+    findAllPackagesByUserId(userId: ID!): [Package!]!
+    findAllPackagesByUbication(origin: String, destination: String): [Package!]!
     findAllPackages: [Package!]!
     findPackageById(id: ID!): Package!
     findPackageByTrackingCode(trackingCode: String!): Package!
-    findPackagesByDateRange(startDate: String!, endDate: String): [Package!]!
-    findPackageCountByUserId(id: ID!): PackageCount!
+    findPackagesByDateRange(startDate: String, endDate: String): [Package!]! # VALIDATE DATES
+    findPackageCountByUserId(userId: ID!): PackageCount!
     findPackagesByStatusIn(packageStatuses: [Int!]!): [Package!]!
     findPackageCountByAllUsers: [PackageCount]!
 
     findAllPackagesStatus: [PackageStatus!]!
     findPackageStatusById(id: ID!): PackageStatus!
 
+    findAllLocationsByUserId(userId: ID!): [Location!]!
     findAllLocations: [Location!]!
     findLocationById(id: ID!): Location!
+    findAllLocationsByPackageId(packageId: ID!): [Location!]!
+    findLastLocationByPackageId(packageId: ID!): Location!
 
     findAllAlerts: [Alert!]!
     findAllAlertsByUserId(id: ID!): [Alert!]!
@@ -30,14 +35,14 @@ type Query {
 }
 
 type Mutation{
-    saveUser(user: UserInput!): CustomResponse!
+    addUser(user: UserInput!): User!
     deleteUser(id: ID!): CustomResponse!
 
-    addPackage(packageEntity: InputPackageAdd!): CustomResponse!
+    addPackage(packageEntity: InputPackageAdd!): Package!
     updatePackage(packageEntity: InputPackageUpdate!): CustomResponse!
     deletePackageById(id: ID!): CustomResponse!
 
-    addLocation(location: InputLocationAdd!): CustomResponse!
+    addLocation(location: InputLocationAdd!): Location!
     updateLocation(location: InputLocationUpdate!): CustomResponse!
     deleteLocationById(id: ID!): CustomResponse!
 

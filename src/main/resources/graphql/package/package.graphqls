@@ -1,6 +1,6 @@
 type Package {
     id: ID!
-    ownerUser: User
+    ownerUser: User!
     status: PackageStatus!
     trackingCode: String!
     description: String!

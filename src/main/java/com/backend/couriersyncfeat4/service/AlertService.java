@@ -43,7 +43,7 @@ public class AlertService implements IAlertService {
     }
 
     public List<AlertEntity> findAll(){
-        return alertRepository.findAll();
+        return alertRepository.findAllOrderByRegisteredAtDesc();
     }
 
     public List<AlertEntity> findAllAlertsByUserId(Long userId){

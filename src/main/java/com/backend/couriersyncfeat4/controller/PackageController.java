@@ -26,7 +26,7 @@ public class PackageController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @MutationMapping
-    public CustomResponseEntity addPackage(@Argument PackageEntity packageEntity){
+    public PackageEntity addPackage(@Argument PackageEntity packageEntity){
         return packageService.addPackage(packageEntity);
     }
 
@@ -68,8 +68,8 @@ public class PackageController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @QueryMapping
-    public PackageCountByUserDTO findPackageCountByUserId (@Argument Long id) {
-        return packageService.findPackageCountByUserId(id);
+    public PackageCountByUserDTO findPackageCountByUserId (@Argument Long userId) {
+        return packageService.findPackageCountByUserId(userId);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
@@ -82,5 +82,17 @@ public class PackageController {
     @QueryMapping
     public List<PackageCountByUserDTO> findPackageCountByAllUsers() {
         return packageService.findCountByAllUsers();
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @QueryMapping
+    public List<PackageEntity> findAllPackagesByUserId(@Argument Long userId) {
+        return packageService.findAllPackagesByUserId(userId);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @QueryMapping
+    public List<PackageEntity> findAllPackagesByUbication(@Argument String origin, @Argument String destination) {
+        return packageService.findAllPackagesByUbication(origin, destination);
     }
 }

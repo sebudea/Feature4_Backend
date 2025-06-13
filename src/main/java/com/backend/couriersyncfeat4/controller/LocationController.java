@@ -24,7 +24,7 @@ public class LocationController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
     @MutationMapping
-    public CustomResponseEntity addLocation(@Argument LocationEntity location){
+    public LocationEntity addLocation(@Argument LocationEntity location){
         return locationService.addLocation(location);
     }
 
@@ -50,5 +50,23 @@ public class LocationController {
     @MutationMapping
     public CustomResponseEntity deleteLocationById(@Argument Long id){
         return locationService.deleteLocationById(id);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @QueryMapping
+    public List<LocationEntity> findAllLocationsByPackageId(@Argument Long packageId){
+        return locationService.findAllLocationsByPackageEntityId(packageId);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @QueryMapping
+    public LocationEntity findLastLocationByPackageId(@Argument Long packageId){
+        return locationService.findLastLocationByPackageEntityId(packageId);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @QueryMapping
+    public List<LocationEntity> findAllLocationsByUserId(@Argument Long userId){
+        return locationService.findAllLocationsByUserId(userId);
     }
 }

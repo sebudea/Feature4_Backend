@@ -27,11 +27,11 @@ public class LocationService implements ILocationService {
     }
 
     // TODO: make validations in each function
-    public CustomResponseEntity addLocation(LocationEntity locationEntity){
+    public LocationEntity addLocation(LocationEntity locationEntity){
 
         if (locationEntity == null || locationEntity.getHandlerUser() == null || locationEntity.getPackageEntity() == null
         || locationEntity.getAddress() == null) {
-            return new CustomResponseEntity(false, "LocationEntity, user, package or address are null");
+            throw new RuntimeException("Some value is null");
         }
 
         UserEntity userEntity = userService.findUserById(locationEntity.getHandlerUser().getId());
@@ -46,11 +46,11 @@ public class LocationService implements ILocationService {
         locationEntityAux.setUpdatedAt(LocalDateTime.now());
 
         locationRepository.save(locationEntityAux);
-        return new CustomResponseEntity(true, "LocationEntity successfully added");
+        return locationEntityAux;
     }
 
     public List<LocationEntity> findAllLocations() {
-        return locationRepository.findAll();
+        return locationRepository.findAllOrderByUpdatedAtDesc();
     }
 
     public LocationEntity findLocationById(Long id) {
@@ -93,5 +93,21 @@ public class LocationService implements ILocationService {
         }
         locationRepository.deleteById(id);
         return new CustomResponseEntity(true, "LocationEntity with ID " + id + " has been successfully deleted ");
+    }
+
+    public List<LocationEntity> findAllLocationsByPackageEntityId(Long packageId) {
+        return locationRepository.findAllByPackageEntity_Id(packageId);
+    }
+
+    public LocationEntity findLastLocationByPackageEntityId(Long packageId) {
+        List<LocationEntity> locations = locationRepository.findAllByPackageEntity_IdOrderByIdAsc(packageId);
+        if (locations.isEmpty()) {
+            throw new RuntimeException("No packages found");
+        }
+        return locations.get(locations.size() - 1);
+    }
+
+    public List<LocationEntity> findAllLocationsByUserId(Long userId) {
+        return locationRepository.findAllByHandlerUser_Id(userId);
     }
 }

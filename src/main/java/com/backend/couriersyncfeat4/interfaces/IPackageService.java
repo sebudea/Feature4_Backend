@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IPackageService {
 
-    CustomResponseEntity addPackage(PackageEntity packag);
+    PackageEntity addPackage(PackageEntity packag);
     List<PackageEntity> findAllPackages();
     PackageEntity findPackageById(Long id);
     PackageEntity findPackageByTrackingCode(String code);
@@ -18,7 +18,9 @@ public interface IPackageService {
 
     //TODO: Check these lines of codes
     List<PackageEntity> findPackagesByDateRange (LocalDateTime startDate, LocalDateTime endDate);
-    PackageCountByUserDTO findPackageCountByUserId (Long id);
+    PackageCountByUserDTO findPackageCountByUserId (Long userId);
     List<PackageEntity> findPackagesByStatusIn(List<Integer> packageStatuses);
     List<PackageCountByUserDTO> findCountByAllUsers();
+    List<PackageEntity> findAllPackagesByUserId(Long userId);
+    List<PackageEntity> findAllPackagesByUbication(String origin, String destination);
 }

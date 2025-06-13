@@ -14,6 +14,13 @@ public interface AlertRepository extends JpaRepository<AlertEntity, Long> {
     @Query("""
     SELECT a
     FROM AlertEntity a
+    ORDER BY a.registeredAt DESC
+""")
+    List<AlertEntity> findAllOrderByRegisteredAtDesc();
+
+    @Query("""
+    SELECT a
+    FROM AlertEntity a
     WHERE a.user.id = :userId
     ORDER BY a.registeredAt DESC
 """)

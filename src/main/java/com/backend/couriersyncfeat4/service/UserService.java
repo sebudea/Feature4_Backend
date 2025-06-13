@@ -33,9 +33,9 @@ public class UserService implements IUserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    public CustomResponseEntity addUser(UserEntity user) {
+    public UserEntity addUser(UserEntity user) {
         if (user == null || user.getName() == null || user.getEmail() == null) {
-            return new CustomResponseEntity(false,"Username or Email is null");
+            throw new RuntimeException("Username or Email is null");
         }
         RoleEntity roleEntity = roleService.findById(user.getRoleEntity().getId());
         UserEntity userEntity = new UserEntity();
@@ -44,7 +44,7 @@ public class UserService implements IUserService {
         userEntity.setRoleEntity(roleEntity);
         userEntity.setCreatedAt(LocalDateTime.now());
         userRepository.save(userEntity);
-        return new CustomResponseEntity(true,"User created successfully");
+        return userEntity;
     }
 
     public CustomResponseEntity deleteUser(Long id){

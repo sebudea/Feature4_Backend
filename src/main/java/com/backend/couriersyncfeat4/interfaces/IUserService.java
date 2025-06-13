@@ -9,7 +9,7 @@ public interface IUserService {
 
     List<UserEntity> findAllUsers();
     UserEntity findUserById(Long id);
-    CustomResponseEntity addUser(UserEntity user);
+    UserEntity addUser(UserEntity user);
     UserEntity findUserByEmail(String email);
     CustomResponseEntity deleteUser(Long id);
 
