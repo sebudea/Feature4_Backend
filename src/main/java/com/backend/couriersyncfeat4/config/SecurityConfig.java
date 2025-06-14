@@ -2,7 +2,6 @@ package com.backend.couriersyncfeat4.config;
 
 import com.backend.couriersyncfeat4.security.jwt.JwtAuthenticationEntryPoint;
 import com.backend.couriersyncfeat4.security.jwt.JwtAuthenticationFilter;
-import com.backend.couriersyncfeat4.security.oauth2.CustomOAuth2UserService;
 import com.backend.couriersyncfeat4.security.oauth2.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,10 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -32,11 +27,13 @@ import java.util.List;
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
-    private final CustomOAuth2UserService oAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
-    @Value("${BASE_URL}")
-    private String BASE_URL;
+    @Value("${app.frontend.url}")
+    private String frontendUrl;
+
+    @Value("${app.backend.url}")
+    private String baseUrl;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -44,21 +41,19 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**",
+                        .requestMatchers(
+                                "/auth/**",
                                 "/oauth2/**",
-                                "/graphql",
-                                "/graphiql",
-                                "/graphiql/**"
+                                "/login/**",
+                                "/graphiql/**",
+                                "/graphql"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
                 .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(userInfo -> userInfo
-                                .userService(oAuth2UserService)
-                        )
-                        .successHandler(oAuth2SuccessHandler) // Usa solo el successHandler
+                        .successHandler(oAuth2SuccessHandler)
                 );
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -67,16 +62,14 @@ public class SecurityConfig {
     }
 
     @Bean
-    public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() {
-        return new DefaultOAuth2UserService();
-    }
-
-    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(BASE_URL)); // Origen de tu frontend
-        configuration.setAllowedHeaders(List.of("*"));
+
+        configuration.setAllowedOrigins(List.of(baseUrl,frontendUrl)); // Origen de tu frontend
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With"));
         configuration.setAllowCredentials(true);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

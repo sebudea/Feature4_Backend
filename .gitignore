@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Ignorar archivo de variables de entorno locales
+.env
+
 ### STS ###
 .apt_generated
 .classpath
