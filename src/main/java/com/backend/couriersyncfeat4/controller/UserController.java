@@ -50,7 +50,7 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR', 'CUSTOMER')")
     @QueryMapping
     public String currentUserRole() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

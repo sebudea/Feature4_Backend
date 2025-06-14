@@ -24,73 +24,73 @@ public class PackageController {
         this.packageService = packageService;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR', 'SUPERVISOR')")
     @MutationMapping
     public PackageEntity addPackage(@Argument PackageEntity packageEntity){
         return packageService.addPackage(packageEntity);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public List<PackageEntity> findAllPackages() {
         return packageService.findAllPackages();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public PackageEntity findPackageById(@Argument Long id) {
         return packageService.findPackageById(id);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @MutationMapping
     public CustomResponseEntity updatePackage(@Argument PackageEntity packageEntity){
         return packageService.updatePackage(packageEntity);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @MutationMapping
     public CustomResponseEntity deletePackageById(@Argument Long id){
         return packageService.deletePackageById(id);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public PackageEntity findPackageByTrackingCode(@Argument String trackingCode){
         return packageService.findPackageByTrackingCode(trackingCode);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public List<PackageEntity> findPackagesByDateRange(@Argument LocalDateTime startDate, @Argument LocalDateTime endDate){
         return packageService.findPackagesByDateRange(startDate, endDate);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public PackageCountByUserDTO findPackageCountByUserId (@Argument Long userId) {
         return packageService.findPackageCountByUserId(userId);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public List<PackageEntity> findPackagesByStatusIn(@Argument List<Integer> packageStatuses) {
         return packageService.findPackagesByStatusIn(packageStatuses);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public List<PackageCountByUserDTO> findPackageCountByAllUsers() {
         return packageService.findCountByAllUsers();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public List<PackageEntity> findAllPackagesByUserId(@Argument Long userId) {
         return packageService.findAllPackagesByUserId(userId);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public List<PackageEntity> findAllPackagesByUbication(@Argument String origin, @Argument String destination) {
         return packageService.findAllPackagesByUbication(origin, destination);

@@ -20,13 +20,13 @@ public class AlertController {
         this.alertService = alertService;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public List<AlertEntity> findAllAlerts(){
         return alertService.findAll();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public List<AlertEntity> findAllAlertsByUserId(@Argument Long id){
         return alertService.findAllAlertsByUserId(id);

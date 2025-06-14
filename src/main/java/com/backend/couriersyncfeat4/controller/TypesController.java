@@ -28,37 +28,37 @@ public class TypesController {
         this.alertTypeService = alertTypeService;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public List<RoleEntity> findAllRoles(){
         return roleService.findAll();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public RoleEntity findRoleById(@Argument int id){
         return roleService.findById(id);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public List<PackageStatusEntity> findAllPackagesStatus(){
         return packageStatusService.findAll();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public PackageStatusEntity findPackageStatusById(@Argument int id){
         return packageStatusService.findById(id);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public List<AlertTypeEntity> findAllAlertTypes(){
         return alertTypeService.findAll();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public AlertTypeEntity findAlertTypeById(@Argument int id){
         return alertTypeService.findById(id);

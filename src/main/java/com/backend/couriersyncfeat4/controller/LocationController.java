@@ -22,49 +22,49 @@ public class LocationController {
         this.locationService = locationService;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @MutationMapping
     public LocationEntity addLocation(@Argument LocationEntity location){
         return locationService.addLocation(location);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public List<LocationEntity> findAllLocations() {
         return locationService.findAllLocations();
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public LocationEntity findLocationById(@Argument Long id) {
         return locationService.findLocationById(id);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @MutationMapping
     public CustomResponseEntity updateLocation(@Argument LocationEntity location){
         return locationService.updateLocation(location);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @MutationMapping
     public CustomResponseEntity deleteLocationById(@Argument Long id){
         return locationService.deleteLocationById(id);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public List<LocationEntity> findAllLocationsByPackageId(@Argument Long packageId){
         return locationService.findAllLocationsByPackageEntityId(packageId);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public LocationEntity findLastLocationByPackageId(@Argument Long packageId){
         return locationService.findLastLocationByPackageEntityId(packageId);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'LOGISTICS', 'WAREHOUSE', 'SUPERVISOR')")
     @QueryMapping
     public List<LocationEntity> findAllLocationsByUserId(@Argument Long userId){
         return locationService.findAllLocationsByUserId(userId);
