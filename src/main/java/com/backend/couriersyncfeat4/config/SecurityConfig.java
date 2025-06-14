@@ -32,9 +32,6 @@ public class SecurityConfig {
     @Value("${app.frontend.url}")
     private String frontendUrl;
 
-    @Value("${app.backend.url}")
-    private String baseUrl;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -65,7 +62,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of(baseUrl,frontendUrl)); // Origen de tu frontend
+        configuration.setAllowedOrigins(List.of(frontendUrl,"http://localhost:3001"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With"));
         configuration.setAllowCredentials(true);
