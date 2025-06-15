@@ -2,36 +2,37 @@
 #TODO: Validar si es necesario el [!]
 type Query { #34
     findAllUsers: [User!]!
-    findUserById(id: ID!): User!
+    findUserById(id: ID): User!
     currentUserRole: String!
 
     findAllRoles: [Role!]!
-    findRoleById(id: ID!): Role!
+    findRoleById(id: ID): Role!
 
-    findAllPackagesByUserId(userId: ID!): [Package!]!
+    findAllPackagesByUserId(userId: ID): [Package!]!
     findAllPackagesByUbication(origin: String, destination: String): [Package!]!
     findAllPackages: [Package!]!
-    findPackageById(id: ID!): Package!
-    findPackageByTrackingCode(trackingCode: String!): Package!
-    findPackagesByDateRange(startDate: String, endDate: String): [Package!]! # VALIDATE DATES
-    findPackageCountByUserId(userId: ID!): PackageCount!
-    findPackagesByStatusIn(packageStatuses: [Int!]!): [Package!]!
+    findPackageByTrackingCode(trackingCode: String): Package!
+    findPackagesByDateRange(startDate: String, endDate: String): [Package!]!
+    findPackageCountByUserId(userId: ID): PackageCount!
+    findPackagesByStatusIn(packageStatuses: [Int!]): [Package!]!
     findPackageCountByAllUsers: [PackageCount]!
 
     findAllPackagesStatus: [PackageStatus!]!
     findPackageStatusById(id: ID!): PackageStatus!
 
-    findAllLocationsByUserId(userId: ID!): [Location!]!
+    findAllLocationsByUserId(userId: ID): [Location!]!
     findAllLocations: [Location!]!
-    findLocationById(id: ID!): Location!
-    findAllLocationsByPackageId(packageId: ID!): [Location!]!
-    findLastLocationByPackageId(packageId: ID!): Location!
+    findLocationById(id: ID): Location!
+    findAllLocationsByPackageId(packageId: ID): [Location!]!
+    findLastLocationByPackageId(packageId: ID): Location!
 
     findAllAlerts: [Alert!]!
-    findAllAlertsByUserId(id: ID!): [Alert!]!
+    findAllAlertsByUserId(id: ID): [Alert!]!
 
     findAllAlertTypes: [AlertType!]!
-    findAlertTypeById(id: ID!): AlertType!
+    findAlertTypeById(id: ID): AlertType!
+
+    inventorySummary(periodStart: String, periodEnd: String, region: String): [InventorySummary!]!
 }
 
 type Mutation{

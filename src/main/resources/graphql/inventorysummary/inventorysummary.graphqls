@@ -1,0 +1,7 @@
+type InventorySummary {
+    region: String!
+    inTransit: Int!
+    delivered: Int!
+    pending: Int!
+}
+

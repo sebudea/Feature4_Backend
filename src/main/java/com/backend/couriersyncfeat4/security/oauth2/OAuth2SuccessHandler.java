@@ -1,6 +1,8 @@
 package com.backend.couriersyncfeat4.security.oauth2;
 
+import com.backend.couriersyncfeat4.entity.RoleEntity;
 import com.backend.couriersyncfeat4.entity.UserEntity;
+import com.backend.couriersyncfeat4.interfaces.IRoleService;
 import com.backend.couriersyncfeat4.interfaces.IUserService;
 import com.backend.couriersyncfeat4.security.jwt.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +22,8 @@ import java.io.IOException;
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final IUserService systemUserService;
+    private final IUserService userService;
+    private final IRoleService roleService;
 
     @Value("${app.frontend.redirect-uri}")
     private String redirectUri;
@@ -33,16 +36,33 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
 
-        System.out.println("### DEBUG: El redirectUri es: " + redirectUri);
-
         DefaultOAuth2User oauthUser = (DefaultOAuth2User) authentication.getPrincipal();
         String email = oauthUser.getAttribute("email");
+        String name = oauthUser.getAttribute("name");
 
-        // Determinar el rol del usuario
-        String role = determineUserRole(email);
+        UserEntity user = userService.findUserByEmail(email);
+        RoleEntity role;
+
+        if (adminEmail != null && adminEmail.equals(email)) {
+            role = roleService.findById(1); //ADMIN
+        } else {
+            if (user != null && user.getRoleEntity() != null) {
+                role = user.getRoleEntity();
+            } else {
+                role = roleService.findById(5); //CUSTOMER
+            }
+        }
 
         // Generar el token JWT
-        String token = jwtTokenProvider.generateToken(email, role);
+        String token = jwtTokenProvider.generateToken(email, role.getName().toUpperCase());
+
+        if (user == null){
+            UserEntity userEntity = new UserEntity();
+            userEntity.setName(name);
+            userEntity.setEmail(email);
+            userEntity.setRoleEntity(role);
+            userService.addUser(userEntity);
+        }
 
         // Construir la URI de redirección con el token
         String targetUrl = UriComponentsBuilder.fromUriString(redirectUri)
@@ -50,17 +70,5 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 .build().toUriString();
 
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
-    }
-
-    private String determineUserRole(String email) {
-        if (adminEmail != null && adminEmail.equals(email)) {
-            return "ADMIN";
-        }
-        UserEntity user = systemUserService.findUserByEmail(email);
-        if (user != null && user.getRoleEntity() != null) {
-            return user.getRoleEntity().getName().toUpperCase();
-        }
-        // Rol por defecto si el usuario no existe en la BD o no tiene rol
-        return "CUSTOMER";
     }
 }

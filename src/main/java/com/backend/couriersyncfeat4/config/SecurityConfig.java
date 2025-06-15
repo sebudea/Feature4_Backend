@@ -45,7 +45,8 @@ public class SecurityConfig {
                                 "/oauth2/**",
                                 "/login/**",
                                 "/graphiql/**",
-                                "/graphql"
+                                "/graphql",
+                                "/actuator/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
