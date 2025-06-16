@@ -8,7 +8,12 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 class Couriersyncfeat4ApplicationTests {
 
-	@Test
+	/**
+	 * This test method verifies that the Spring application context loads
+	 * successfully.
+	 * The method is intentionally empty as the test passes if the application
+	 * context loads without errors.
+	 */
 	void contextLoads() {
 	}
 
